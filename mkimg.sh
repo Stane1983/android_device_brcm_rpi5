@@ -36,7 +36,10 @@ if [ -f ${ANDROID_PRODUCT_OUT}/${IMGNAME} ]; then
 fi
 
 echo "Creating image file ${ANDROID_PRODUCT_OUT}/${IMGNAME}..."
-sudo fallocate -l ${IMGSIZE} ${ANDROID_PRODUCT_OUT}/${IMGNAME}
+if ! sudo fallocate -l ${IMGSIZE} ${ANDROID_PRODUCT_OUT}/${IMGNAME}
+then
+  sudo fallocate -x -l ${IMGSIZE} ${ANDROID_PRODUCT_OUT}/${IMGNAME}
+fi
 sync
 
 echo "Creating partitions..."
